@@ -5,6 +5,7 @@ import org.newdawn.slick.Color;
  
 public class terrainGen {
 	public Block[] rects;
+	public boolean finishedGen = false;
 	
 	//BLOCKS
 	public final int AIR = 0;
@@ -13,29 +14,54 @@ public class terrainGen {
 
 	public final int TNT = 3;
 	public final int JOBBY = 4;
-	 
-	
-	public void setup(){
-		rects = new Block[128];  // Tested this, can currently deal with 11,000 rects before it starts to slow down
-									 //Then we need to redesign the coliision!
-		int grid = 64;
+	float[] x;
+	float[] y;
+	public void setup(){	
+		x = new float[256];
+		y = new float[256];
+		
+		rects = new Block[256];  
 		
 		
-		for(int i = 0; i < rects.length; i++){
-			int type = (int) Math.round(Math.random() * JOBBY);
-			rects[i] = new Block(Math.round(Math.random() * 1280 / grid) * grid, Math.round(Math.random() * 700 / grid) * grid + 190, 64, 64, type);
-			for(int j = 0; j < i; j++){
-				if(rects[i].getLocation() == rects[j].getLocation()){
-					rects[i].setHeight(0);
-					rects[i].setWidth(0);
-				}
+		
+		Thread t2 = new Thread(){
+			public void run(){
+				int grid = 64;
+				
+				for(int i = 0; i < rects.length; i++){
+					int type = (int) Math.round(Math.random() * JOBBY);
+					boolean same = true;
+			
+					x[i] = Math.round(Math.random() * 1280 / grid) * grid;
+					y[i] = Math.round(Math.random() * 700 / grid) * grid + 190;
+			
+					rects[i] = new Block(Math.round(Math.random() * 1280 / grid) * grid, Math.round(Math.random() * 700 / grid) * grid + 190, 64, 64, type);
+			
+			
+					while(same){
+						boolean isSame = false;
+						for(int j = 0; j < i; j++){
+							if(x[i] == x[j] && y[i] == y[j]){
+								x[i] = x[i] + 64;
+								isSame = true;
+							}
+						}
+						same = isSame;
+					}
+					
+					
 			}
-		}
+				finishedGen  = true;
+			}
+			
+			
+		};t2.start();
+		
 	}
 	
 	public Color BlockColor(int type){
 		Color c = null;
-		
+		 
 		
 		if(type == DIRT) c = RRGGBB.gray;
 		if(type == GRASS)c = RRGGBB.green;

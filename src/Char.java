@@ -49,7 +49,6 @@ public class Char {
 		
 		playerBoundingRect = new Rectangle(x,y, 28, 56);
 		playerHitBox = new Rectangle(x,y,16,16);
-		
 		playerInv = new Inventory();
 
 	}

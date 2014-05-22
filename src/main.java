@@ -1,16 +1,14 @@
 import org.newdawn.slick.AppGameContainer;
-import org.newdawn.slick.Color;
 import org.newdawn.slick.Game;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.geom.Rectangle;
 
 public class main implements Game {
 	private Char player;
+	private Bee bee;
 	private terrainGen terrain;
 	private float playerX;
 	private float playerY;
@@ -34,6 +32,7 @@ public class main implements Game {
 		terrain = new terrainGen();
 		terrain.setup();
 		player = new Char("Char", terrain.rects, 960, 64);
+		bee = new Bee("Bee", terrain.rects, 1080, 64);
 		Cosmos1 = new Image("src/Assets/Cosmos1.png");
 		input = arg0.getInput();
 	}
@@ -50,14 +49,24 @@ public class main implements Game {
 			player.ss.getSprite(0, 0).draw(playerX, playerY);
 		}
 		
+		if (bee.isMovingRight) {
+			bee.beeRight.draw(beeX, beeY);
+		} else if (bee.isMovingLeft) {
+			bee.beeLeft.draw(beeX, beeY);
+		} else {
+			bee.beeRight.draw(beeX,beeY);
+		}
 		
-		for(Block i : terrain.rects){ 
-			g.setColor(terrain.BlockColor(i.type));
-			g.fill(i);
-			g.setColor(RRGGBB.black);
+		if(terrain.finishedGen == true){
+			for(Block i : terrain.rects){ 
+				g.setColor(terrain.BlockColor(i.type));
+				g.fill(i);
+				g.setColor(RRGGBB.black);
+			}
 		}
 		
 		g.draw(player.playerBoundingRect);
+		g.draw(bee.beeBoundingRect);
 	}
 
 	@Override
@@ -70,7 +79,13 @@ public class main implements Game {
 		playerX = player.x;
 		playerY = player.y;
 
+		beeX = bee.x;
+		beeY = bee.y;
+		
+		bee.movement(input, delta, playerX, playerY);
+
 		player.movement(input, delta);
+		
 	}
 
 	public static void main(String[] args) {

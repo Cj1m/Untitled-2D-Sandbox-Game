@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="40" height="15" tilewidth="64" tileheight="64">
+ <tileset firstgid="1" name="Catacombs HD" tilewidth="64" tileheight="64">
+  <image source="Catacombs HD.png" width="256" height="256"/>
+ </tileset>
+ <tileset firstgid="17" name="Terrain Brick HD" tilewidth="64" tileheight="64">
+  <image source="Terrain Brick HD.png" width="512" height="512"/>
+ </tileset>
+ <layer name="Background" width="40" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NlYGBgHcWjeBSP4lE8ikcxTiyIhgfaPaN48GMAWYK/G2AJAAA=
+  </data>
+ </layer>
+ <layer name="Blocks" width="40" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC82VWQrAMAhE9Qje/7L5aSmI+xI64EcKMz5LFgQAhE/4k6Kn3nWUjwTvbT4uy2eVlpFhjKiSPZExwRfVxh7wsjPivol9YHms/lZf/s2bpdI7k9dVli/Dts03eSa13lt8ks+7uzW/x8fzsjORUN3zVuXz/lv33ZP63HhPq3yTs2/wHTi5A6RgCQAA
+  </data>
+ </layer>
+ <layer name="&lt;- Edge" width="40" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgQAVMDIMDCOEQJ+Q+XPqoDUhxH7IYue4jJ16ItYsacT4c3UdPs9HNwGUmOXYRo4eQGkLpmlT7KLWbngCf/QPpNlqHGy31Y5MjpWwkxW2klrnoZlOqnxCg1N+0qPOoUWfREsDcNxjdBgIw9wEAi2DIGWAJAAA=
+  </data>
+ </layer>
+ <layer name="Edge -&gt;" width="40" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC82VMQ7AIAwDLfEE/v/XLh1QFTXAOaVeWIJzMlGQpKZ/qt/nDl/PS7AivhnWGTbHm1Rl4JoXyndybrPeu2zPey6fVc+oxsHmzK3i/WlupJ54kl5OT4dXtBeI7+hXtVfJ3Dj5yE596/3Ff5ppJccTivgulbe5pGAJAAA=
+  </data>
+ </layer>
+ <layer name="Edge V" width="40" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC+WUwQoAIAhDu/UR/v9/do1hmWmx6IF0yTVHWMp7VKgMHS8CGr2m1SfGnRWdW2DW0cx7VnKYsesD+7Ln0t7w9uHp0bVm2fGmaY50Inmy/HsNZm+MnNgZDET3VjYC9RPsszdcTfs0YAkAAA==
+  </data>
+ </layer>
+ <layer name="^ Edge" width="40" height="15">
+  <data encoding="base64" compression="gzip">
+   H4sIAAAAAAAAC2NgGJxACorJ1UeO3lEwCtABGx48nMBg9h8utwwGNw6kGwjFEzFuw2cGLf2GzWx8ZTe6ejYc4tgAqXUBupmk1ie43EoNQIlZhOKaDQ9fCovcYCgzpHCwBwsAACUuxF5gCQAA
+  </data>
+ </layer>
+</map>

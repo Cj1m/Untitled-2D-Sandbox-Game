@@ -2,7 +2,7 @@ public class Inventory {
 	Block[] inv;
 	
 	public Inventory(){
-		inv = new Block[8];
+		inv = new Block[10];
 		
 		for(int i = 0; i < inv.length; i++){
 			inv[i] = new Block(0,0,64,64,0);

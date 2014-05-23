@@ -73,7 +73,9 @@ public class main implements Game {
 		g.setColor(RRGGBB.black);
 		
 		for(int i = 0; i < player.playerInv.inv.length; i++){
+			g.setColor(RRGGBB.white);
 			g.drawString(player.playerInv.inv[i].type + " ",invX, 50);
+			g.setColor(RRGGBB.black);
 			invX+= 64;
 		}
 		

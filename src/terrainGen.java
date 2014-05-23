@@ -28,32 +28,24 @@ public class terrainGen {
 			public void run(){
 				int grid = 64;
 				
-				for(int i = 0; i < rects.length; i++){
-					int type = (int) Math.round(Math.random() * JOBBY);
-					boolean same = true;
-			
-					x[i] = Math.round(Math.random() * 1280 / grid) * grid;
-					y[i] = Math.round(Math.random() * 700 / grid) * grid + 190;
-			
-					rects[i] = new Block(Math.round(Math.random() * 1280 / grid) * grid, Math.round(Math.random() * 700 / grid) * grid + 190, 64, 64, type);
-			
-			
-					while(same){
-						boolean isSame = false;
-						for(int j = 0; j < i; j++){
-							if(x[i] == x[j] && y[i] == y[j]){
-								x[i] = x[i] + 64;
-								isSame = true;
-							}
+				int i = 0;
+				for(int x = 0; x < 1080; x += grid){
+					for(int y = 0; y < 1080; y += grid){
+						if(y <= 128 + 64){
+							rects[i] = new Block(x,y,64,64,AIR);
+							i++;
+							if(i > rects.length) break;
+						}else{	
+							int randBlock = (int) Math.round(Math.random() * JOBBY);
+							rects[i] = new Block(x,y,64,64,randBlock);
+							i++;
+							if(i > rects.length) break;
 						}
-						same = isSame;
 					}
-					
-					
+				}
+				
+				finishedGen = true;
 			}
-				finishedGen  = true;
-			}
-			
 			
 		};t2.start();
 		

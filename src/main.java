@@ -64,7 +64,17 @@ public class main implements Game {
 				g.setColor(terrain.BlockColor(terrain.rects[i].type));
 				g.fill(terrain.rects[i]);
 				g.setColor(RRGGBB.black);
-				g.drawString("" + i, terrain.rects[i].getX(), terrain.rects[i].getY());
+				//g.drawString("" + i, terrain.rects[i].getX(), terrain.rects[i].getY());
+		}
+		
+		int invX = 8;
+		g.setColor(RRGGBB.white);
+		g.drawString("INVENTORY", 8, 30);
+		g.setColor(RRGGBB.black);
+		
+		for(int i = 0; i < player.playerInv.inv.length; i++){
+			g.drawString(player.playerInv.inv[i].type + " ",invX, 50);
+			invX+= 64;
 		}
 		
 		g.draw(player.playerBoundingRect);

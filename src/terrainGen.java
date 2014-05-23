@@ -14,13 +14,9 @@ public class terrainGen {
 
 	public final int TNT = 3;
 	public final int JOBBY = 4;
-	float[] x;
-	float[] y;
-	public void setup(){	
-		x = new float[256];
-		y = new float[256];
-		
-		rects = new Block[256];  
+	
+	public void setup(){		
+		rects = new Block[255];  
 		
 		
 		
@@ -30,18 +26,23 @@ public class terrainGen {
 				
 				int i = 0;
 				for(int x = 0; x < 1080; x += grid){
-					for(int y = 0; y < 1080; y += grid){
+					if(i >= rects.length) break;
+					for(int y = 0; y < 960; y += grid){
 						if(y <= 128 + 64){
 							rects[i] = new Block(x,y,64,64,AIR);
 							i++;
-							if(i > rects.length) break;
+							if(i >= rects.length) break;
 						}else{	
 							int randBlock = (int) Math.round(Math.random() * JOBBY);
 							rects[i] = new Block(x,y,64,64,randBlock);
 							i++;
-							if(i > rects.length) break;
+							if(i >= rects.length) break;
 						}
 					}
+				}
+				
+				for(int j = 0; j < rects.length; j++){
+					
 				}
 				
 				finishedGen = true;

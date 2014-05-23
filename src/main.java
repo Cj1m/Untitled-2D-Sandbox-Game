@@ -60,10 +60,11 @@ public class main implements Game {
 			bee.beeRight.draw(beeX,beeY);
 		}
 		
-		for(Block i : terrain.rects){ 
-				g.setColor(terrain.BlockColor(i.type));
-				g.fill(i);
+		for(int i = 0;i < terrain.rects.length; i++){ 
+				g.setColor(terrain.BlockColor(terrain.rects[i].type));
+				g.fill(terrain.rects[i]);
 				g.setColor(RRGGBB.black);
+				g.drawString("" + i, terrain.rects[i].getX(), terrain.rects[i].getY());
 		}
 		
 		g.draw(player.playerBoundingRect);

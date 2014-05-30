@@ -31,13 +31,13 @@ public class main implements Game {
 	}
 
 	@Override
-	public void init(GameContainer arg0) throws SlickException {
+	public void init(GameContainer con) throws SlickException {
 		terrain = new terrainGen();
 		terrain.setup();
-		player = new Char("Char", terrain.rects, 960, 64);
+		player = new Char("Char", terrain.rects, 960, con.getScreenHeight() / 2 - 128);
 		bee = new Bee("Bee", terrain.rects, 64, 64);
 		Cosmos1 = new Image("src/Assets/Cosmos1.png");
-		input = arg0.getInput();
+		input = con.getInput();
 	}
 
 	@Override
@@ -61,10 +61,11 @@ public class main implements Game {
 		}
 		
 		for(int i = 0;i < terrain.rects.length; i++){ 
+				Rectangle rect = new Rectangle(terrain.rects[i].getX(),terrain.rects[i].getY(),terrain.rects[i].getWidth(),terrain.rects[i].getHeight());
 				g.setColor(terrain.BlockColor(terrain.rects[i].type));
-				g.fill(terrain.rects[i]);
+				g.fillRect(rect.getX(), rect.getY() - player.mapY, rect.getWidth(), rect.getHeight());
 				g.setColor(RRGGBB.black);
-				//g.drawString("" + i, terrain.rects[i].getX(), terrain.rects[i].getY());
+				//g.drawString("" + i, terrain.rects[i].getX(), terrain.rects[i].getY() - player.mapY);
 		}
 		
 		int invX = 8;
@@ -76,10 +77,11 @@ public class main implements Game {
 			g.setColor(RRGGBB.white);
 			g.drawString(player.playerInv.inv[i].type + " ",invX, 50);
 			g.setColor(RRGGBB.black);
-			invX+= 64;
+			invX+= 32;
 		}
 		
-		g.draw(player.playerBoundingRect);
+		//g.draw(player.playerBoundingRect);
+		g.drawRect(player.playerBoundingRect.getX(), player.playerBoundingRect.getY() - player.mapY, player.playerBoundingRect.getWidth(), player.playerBoundingRect.getHeight());
 		g.draw(bee.beeBoundingRect);
 	}
 
@@ -97,7 +99,7 @@ public class main implements Game {
 		
 		bee.movement(input, delta, playerX, playerY);
 
-		player.movement(input, delta);
+		player.movement(input, delta, terrain.rects);
 	}
 
 	public static void main(String[] args) {

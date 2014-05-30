@@ -16,19 +16,28 @@ public class terrainGen {
 	public final int TNT = 3;
 	public final int JOBBY = 4;
 	
+	private int xGen;
+	private int yGen;
+	private int grid;
+	
 	public void setup(){		
-		rects = new Block[255];  
+		xGen = 1080;
+		yGen = 960 * 2;
+		grid = 64;
 		
+		int blocksX = (int) (Math.ceil((float)xGen / grid));
+		int blocksY = (int) (Math.ceil((float)yGen / grid));
 		
-		
+		rects = new Block[blocksX * blocksY];  
+
 		Thread t2 = new Thread(){
 			public void run(){
-				int grid = 64;
+				
 				
 				int i = 0;
-				for(int x = 0; x < 1080; x += grid){
+				for(int x = 0; x < xGen; x += grid){
 					if(i >= rects.length) break;
-					for(int y = 0; y < 960; y += grid){
+					for(int y = 0; y < yGen; y += grid){
 						if(y <= 128 + 64){
 							rects[i] = new Block(x,y,64,64,AIR);
 							i++;

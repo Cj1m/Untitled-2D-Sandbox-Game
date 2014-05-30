@@ -9,6 +9,7 @@ public class Char {
 	public String name;
 	public float x;
 	public float y;
+	public float mapY;
 	public boolean isMovingLeft;
 	public boolean isMovingRight;
 	public boolean isOnGround;
@@ -50,7 +51,7 @@ public class Char {
 		playerBoundingRect = new Rectangle(x,y, 28, 56);
 		playerHitBox = new Rectangle(x,y,16,16);
 		playerInv = new Inventory();
-
+		mapY = -336;
 	}
 	
 	public void falling() {
@@ -63,7 +64,7 @@ public class Char {
 					timer = 0;
 				}
 			}
-			y = y + velY;
+			mapY += velY;
 			isOnGround = false;
 		}else{
 			velY = 0;	
@@ -71,7 +72,9 @@ public class Char {
 		}
 	}
 
-	public void movement(Input input, int delta) {
+	public void movement(Input input, int delta, Block[] map) {
+		this.map = map;
+		
 		int KEYD = Input.KEY_D;
 		int KEYRIGHT = Input.KEY_RIGHT;
 
@@ -183,7 +186,7 @@ public class Char {
 	
 	private void destroy(float x, float y) {
 
-        playerHitBox.setLocation(x + 8,y);
+        playerHitBox.setLocation(x + 8,y + mapY);
 		for(int i = 0; i < map.length; i++){
 			if(playerHitBox.intersects(map[i])){
 				if(map[i].type != 0){
@@ -199,7 +202,7 @@ public class Char {
         boolean blocked = false;
         
         float tweakedX = x + 4;
-        float tweakedY = y + 8;
+        float tweakedY = y + 8 + mapY;
         
         playerBoundingRect.setLocation(tweakedX,tweakedY);
 		for(int i = 0; i < map.length; i++){

@@ -21,7 +21,7 @@ public class Bee {
 	public Rectangle beeHitBox;
 	public Block[] map;
 	
-	private float velY;
+	private float playerMapY;
 	private int delta;
 	private int timer;
 	
@@ -53,18 +53,19 @@ public class Bee {
 	
 	
 
-	public void movement(Input input, int delta, float playerX, float playerY) {
+	public void movement(Input input, int delta, float playerX, float playerY, float mapY) {
 
 		this.delta = delta;
+		this.playerMapY = mapY;
 		
 		//MOVEMENT
 
 		
-		if(playerY < y && !isBlocked(x, y - 2)){
+		if(playerY + playerMapY < y && !isBlocked(x, y - 2)){
 			y -= 2;
 		}
 		
-		if(playerY > y && !isBlocked(x, y + 2)){
+		if(playerY + playerMapY > y && !isBlocked(x, y + 2)){
 			y += 2;
 		}
 		

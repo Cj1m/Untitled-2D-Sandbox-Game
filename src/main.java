@@ -53,11 +53,11 @@ public class main implements Game {
 		}
 		
 		if (bee.isMovingRight) {
-			bee.beeRight.draw(beeX, beeY);
+			bee.beeRight.draw(beeX, beeY - player.mapY);
 		} else if (bee.isMovingLeft) {
-			bee.beeLeft.draw(beeX, beeY);
+			bee.beeLeft.draw(beeX, beeY- player.mapY);
 		} else {
-			bee.beeRight.draw(beeX,beeY);
+			bee.beeRight.draw(beeX,beeY- player.mapY);
 		}
 		
 		for(int i = 0;i < terrain.rects.length; i++){ 
@@ -82,7 +82,7 @@ public class main implements Game {
 		
 		//g.draw(player.playerBoundingRect);
 		g.drawRect(player.playerBoundingRect.getX(), player.playerBoundingRect.getY() - player.mapY, player.playerBoundingRect.getWidth(), player.playerBoundingRect.getHeight());
-		g.draw(bee.beeBoundingRect);
+		g.drawRect(bee.beeBoundingRect.getX(), bee.beeBoundingRect.getY() - player.mapY, bee.beeBoundingRect.getWidth(),bee.beeBoundingRect.getHeight());
 	}
 
 	@Override
@@ -97,7 +97,7 @@ public class main implements Game {
 		beeX = bee.x;
 		beeY = bee.y;
 		
-		bee.movement(input, delta, playerX, playerY);
+		bee.movement(input, delta, playerX, playerY, player.mapY);
 
 		player.movement(input, delta, terrain.rects);
 	}

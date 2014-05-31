@@ -22,7 +22,7 @@ public class terrainGen {
 	
 	public void setup(){		
 		xGen = 1080;
-		yGen = 960 * 2;
+		yGen = 960 * 8;
 		grid = 64;
 		
 		int blocksX = (int) (Math.ceil((float)xGen / grid));

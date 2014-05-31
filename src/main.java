@@ -60,12 +60,16 @@ public class main implements Game {
 			bee.beeRight.draw(beeX,beeY- player.mapY);
 		}
 		
+		
+		System.out.println(64 * Math.round(-player.mapY / 64));
 		for(int i = 0;i < terrain.rects.length; i++){ 
+			if(terrain.rects[i].getY() > 64 * Math.round(player.mapY / 64) - 64){
 				Rectangle rect = new Rectangle(terrain.rects[i].getX(),terrain.rects[i].getY(),terrain.rects[i].getWidth(),terrain.rects[i].getHeight());
 				g.setColor(terrain.BlockColor(terrain.rects[i].type));
 				g.fillRect(rect.getX(), rect.getY() - player.mapY, rect.getWidth(), rect.getHeight());
 				g.setColor(RRGGBB.black);
 				//g.drawString("" + i, terrain.rects[i].getX(), terrain.rects[i].getY() - player.mapY);
+			}
 		}
 		
 		int invX = 8;

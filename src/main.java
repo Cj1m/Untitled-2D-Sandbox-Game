@@ -62,8 +62,10 @@ public class main implements Game {
 		
 		
 		System.out.println(64 * Math.round(-player.mapY / 64));
-		for(int i = 0;i < terrain.rects.length; i++){ 
-			if(terrain.rects[i].getY() > 64 * Math.round(player.mapY / 64) - 64){
+		for(int i = 0;i < terrain.rects.length; i++){
+			int startY = 64 * Math.round(player.mapY / 64) - 64;
+			int endY = 64 * Math.round((player.mapY + arg0.getScreenHeight()) / 64) - 64;
+			if(terrain.rects[i].getY() > startY && terrain.rects[i].getY() < endY){
 				Rectangle rect = new Rectangle(terrain.rects[i].getX(),terrain.rects[i].getY(),terrain.rects[i].getWidth(),terrain.rects[i].getHeight());
 				g.setColor(terrain.BlockColor(terrain.rects[i].type));
 				g.fillRect(rect.getX(), rect.getY() - player.mapY, rect.getWidth(), rect.getHeight());

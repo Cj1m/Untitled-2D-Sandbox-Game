@@ -34,7 +34,7 @@ public class main implements Game {
 	public void init(GameContainer con) throws SlickException {
 		terrain = new terrainGen();
 		terrain.setup();
-		player = new Char("Char", terrain.rects, 960, con.getScreenHeight() / 2 - 128);
+		player = new Char("Char", terrain.rects, 960, con.getScreenHeight() / 2 - 128, con.getHeight());
 		bee = new Bee("Bee", terrain.rects, 64, 64);
 		Cosmos1 = new Image("src/Assets/Cosmos1.png");
 		input = con.getInput();

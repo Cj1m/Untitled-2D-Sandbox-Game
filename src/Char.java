@@ -24,13 +24,16 @@ public class Char {
 	public Inventory playerInv;
 	
 	private float velY;
+	
+	private int screenHeight;
 	private int delta;
 	private int timer;
 	
-	public Char(String name, Block[] rects, float x, float y) {
+	public Char(String name, Block[] rects, float x, float y, int screenHeight) {
 		this.name = name;
 		this.x = x;
 		this.y = y;
+		this.screenHeight = screenHeight;
 		map = rects;
 		
 		try {
@@ -187,12 +190,18 @@ public class Char {
 	private void destroy(float x, float y) {
 
         playerHitBox.setLocation(x + 8,y + mapY);
+        
+        int startY = 64 * Math.round(mapY / 64) - 64;
+		int endY = 64 * Math.round((mapY + screenHeight) / 64) - 64;
+        
 		for(int i = 0; i < map.length; i++){
-			if(playerHitBox.intersects(map[i])){
-				if(map[i].type != 0){
-					playerInv.addItem(map[i].type);
+			if(map[i].getY() > startY && map[i].getY() < endY){
+				if(playerHitBox.intersects(map[i])){
+					if(map[i].type != 0){
+						playerInv.addItem(map[i].type);
 					
-					map[i].type = 0;
+						map[i].type = 0;
+					}
 				}
 			}
 		}
@@ -204,13 +213,20 @@ public class Char {
         float tweakedX = x + 4;
         float tweakedY = y + 8 + mapY;
         
+        int startY = 64 * Math.round(mapY / 64) - 64;
+		int endY = 64 * Math.round((mapY + screenHeight) / 64) - 64;
+        
         playerBoundingRect.setLocation(tweakedX,tweakedY);
 		for(int i = 0; i < map.length; i++){
-			if(playerBoundingRect.intersects(map[i])){
-				if(map[i].type != 0){
-					blocked = true;
+			
+			if(map[i].getY() > startY && map[i].getY() < endY){
+				if(playerBoundingRect.intersects(map[i])){
+					if(map[i].type != 0){
+						blocked = true;
+					}
 				}
 			}
+			
 		}
 		return blocked;
     }

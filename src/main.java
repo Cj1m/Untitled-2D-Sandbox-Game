@@ -80,10 +80,22 @@ public class main implements Game {
 		g.setColor(RRGGBB.black);
 		
 		for(int i = 0; i < player.playerInv.inv.length; i++){
+			player.playerInv.inv[i].setLocation(invX , 50);
+			
 			g.setColor(RRGGBB.white);
-			g.drawString(player.playerInv.inv[i].type + " ",invX, 50);
-			g.setColor(RRGGBB.black);
-			invX+= 32;
+			g.setLineWidth(4);
+			g.draw(player.playerInv.inv[i]);
+			
+			if(player.playerInv.inv[i].type == 0){
+				g.setColor(RRGGBB.white);
+			}else{
+				g.setColor(terrain.BlockColor(player.playerInv.inv[i].type));
+			}
+			
+			g.fill(player.playerInv.inv[i]);
+			
+			g.setLineWidth(1);
+			invX+= 8 + 16;
 		}
 		
 		//g.draw(player.playerBoundingRect);

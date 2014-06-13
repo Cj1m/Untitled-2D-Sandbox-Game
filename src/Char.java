@@ -58,7 +58,7 @@ public class Char {
 	}
 	
 	public void falling() {
-		if(!isBlocked(x, y + velY + 1f)){
+		if(!newIsBlocked(x, y + velY + 1f + 23)){
 			timer += delta;
 			
 			if(velY < 7){
@@ -95,67 +95,67 @@ public class Char {
 		this.delta = delta;
 		
 		//MOVEMENT
-		if((input.isKeyDown(KEYSPACE) || input.isKeyDown(KEYW)) && !isBlocked(x, y + jumpHeight) && isOnGround == true){
+		if((input.isKeyDown(KEYSPACE) || input.isKeyDown(KEYW)) && !newIsBlocked(x, y + jumpHeight) && isOnGround == true){
 			velY = jumpHeight;
 		}
 		
 		
-		if((input.isKeyDown(KEYSPACE) || input.isKeyDown(KEYW)) && (input.isKeyDown(KEYD)) && !isBlocked(x + 5, y + jumpHeight) && isOnGround == true){
+		if((input.isKeyDown(KEYSPACE) || input.isKeyDown(KEYW)) && (input.isKeyDown(KEYD)) && !newIsBlocked(x + 5 + 20, y + jumpHeight) && isOnGround == true){
 			velY = jumpHeight;
 			x+= 5;
 		}else if (input.isKeyDown(KEYD)) {
-			if(!isBlocked(x + 5, y)){
+			if(!newIsBlocked(x + 5 + 20, y)){
 				x += 5;
 
 				isMovingRight = true;
 				isMovingLeft = false;
-			}else if(!isBlocked(x + 4, y)){
+			}else if(!newIsBlocked(x + 4 + 20, y)){
 				x += 4;
 
 				isMovingRight = true;
 				isMovingLeft = false;
-			}else if(!isBlocked(x + 3, y)){
+			}else if(!newIsBlocked(x + 3 + 20, y)){
 				x += 3;
 
 				isMovingRight = true;
 				isMovingLeft = false;
-			}else if(!isBlocked(x + 2, y)){
+			}else if(!newIsBlocked(x + 2 + 20, y)){
 				x += 2;
 
 				isMovingRight = true;
 				isMovingLeft = false;
-			}else if(!isBlocked(x + 1, y)){
+			}else if(!newIsBlocked(x + 1 + 20, y)){
 				x += 1;
 
 				isMovingRight = true;
 				isMovingLeft = false;
 			}
 			
-		}else if((input.isKeyDown(KEYSPACE) || input.isKeyDown(KEYW)) && (input.isKeyDown(KEYA)) && !isBlocked(x - 5, y + jumpHeight) && isOnGround == true){
+		}else if((input.isKeyDown(KEYSPACE) || input.isKeyDown(KEYW)) && (input.isKeyDown(KEYA)) && !newIsBlocked(x - 5 - 9, y + jumpHeight) && isOnGround == true){
 			velY = jumpHeight;
 			x-= 5;
 		}else if (input.isKeyDown(KEYA)) {
-			if(!isBlocked(x - 5, y)){
+			if(!newIsBlocked(x - 5 - 9, y)){
 				x -= 5;
 
 				isMovingRight = false;
 				isMovingLeft = true;
-			}else if(!isBlocked(x - 4, y)){
+			}else if(!newIsBlocked(x - 4- 9, y)){
 				x -= 4;
 
 				isMovingRight = false;
 				isMovingLeft = true;
-			}else if(!isBlocked(x - 3, y)){
+			}else if(!newIsBlocked(x - 3- 9, y)){
 				x -= 3;
 
 				isMovingRight = false;
 				isMovingLeft = true;
-			}else if(!isBlocked(x - 2, y)){
+			}else if(!newIsBlocked(x - 2- 9, y)){
 				x -= 2;
 
 				isMovingRight = false;
 				isMovingLeft = true;
-			}else if(!isBlocked(x - 1, y)){
+			}else if(!newIsBlocked(x - 1- 9, y)){
 				x -= 1;
 
 				isMovingRight = false;
@@ -205,6 +205,31 @@ public class Char {
 				}
 			}
 		}
+    }
+	
+	private boolean newIsBlocked(float x, float y) {
+        boolean blocked = false;
+        
+        
+        
+        int xGen = 1080;
+		int yGen = 960 * 8;
+		int grid =32;
+        
+		float tweakedX = x;
+        float tweakedY = y + mapY - grid;
+		
+       
+        
+        System.out.println((Math.round((tweakedX + playerBoundingRect.getWidth()) / map[1].getWidth()) - 1) * ((yGen / grid)) + Math.round((tweakedY + playerBoundingRect.getHeight()) / map[1].getWidth()));
+        
+        if(map[(int) ((Math.round((tweakedX + playerBoundingRect.getWidth()) / grid) - 1) * ((yGen / grid)) + Math.round((tweakedY + playerBoundingRect.getHeight()) / map[1].getWidth()))].type != 0){
+        	blocked = true;
+        }
+        if(map[(int) ((Math.round((tweakedX + playerBoundingRect.getWidth()) / grid) - 1) * ((yGen / grid)) + Math.round((tweakedY + playerBoundingRect.getHeight() / 2) / map[1].getWidth()))].type != 0){
+        	blocked = true;
+        }
+        return blocked;
     }
 	
 	private boolean isBlocked(float x, float y) {

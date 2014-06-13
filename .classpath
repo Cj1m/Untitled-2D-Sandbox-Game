@@ -23,5 +23,6 @@
 	<classpathentry exported="true" kind="lib" path="src/libs/natives-windows.jar"/>
 	<classpathentry exported="true" kind="lib" path="src/libs/slick-examples.jar"/>
 	<classpathentry exported="true" kind="lib" path="src/libs/slick.jar"/>
+	<classpathentry kind="lib" path="src/libs/json-simple-1.1.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

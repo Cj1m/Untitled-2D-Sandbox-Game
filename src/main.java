@@ -1,3 +1,6 @@
+import java.util.Arrays;
+
+import org.json.simple.JSONObject;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Game;
@@ -70,7 +73,8 @@ public class main implements Game {
 				g.setColor(terrain.BlockColor(terrain.rects[i].type));
 				g.fillRect(rect.getX(), rect.getY() - player.mapY, rect.getWidth(), rect.getHeight());
 				g.setColor(RRGGBB.black);
-				//g.drawString("" + i, terrain.rects[i].getX(), terrain.rects[i].getY() - player.mapY);
+				g.drawString("" + i, terrain.rects[i].getX(), terrain.rects[i].getY() - player.mapY);
+				//System.out.println((Math.round((player.x + player.playerBoundingRect.getWidth()) / rect.getWidth()) - 1) * ((terrain.yGen / terrain.grid)) + Math.round((player.mapY + player.y + player.playerBoundingRect.getWidth()) / rect.getWidth()));
 			}
 		}
 		
@@ -95,6 +99,7 @@ public class main implements Game {
 			g.fill(player.playerInv.inv[i]);
 			
 			g.setLineWidth(1);
+			g.setColor(Color.black);
 			invX+= 8 + 16;
 		}
 		

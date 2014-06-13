@@ -16,14 +16,14 @@ public class terrainGen {
 	public final int TNT = 3;
 	public final int JOBBY = 4;
 	
-	private int xGen;
-	private int yGen;
-	private int grid;
+	public int xGen;
+	public int yGen;
+	public int grid;
 	
 	public void setup(){		
 		xGen = 1080;
 		yGen = 960 * 8;
-		grid = 64;
+		grid = 32;
 		
 		int blocksX = (int) (Math.ceil((float)xGen / grid));
 		int blocksY = (int) (Math.ceil((float)yGen / grid));
@@ -38,28 +38,28 @@ public class terrainGen {
 				for(int x = 0; x < xGen; x += grid){
 					if(i >= rects.length) break;
 					for(int y = 0; y < yGen; y += grid){
-						if(y <= 128 + 64){
-							rects[i] = new Block(x,y,64,64,AIR);
+						if(y <= 128 + grid){
+							rects[i] = new Block(x,y,grid,grid,AIR);
 							i++;
 							if(i >= rects.length) break;
 						}else if(y == 256){
 							int randAir = 1 + (int)(Math.random() * ((10 - 1) + 1));
 							if(randAir == 1){
-								rects[i] = new Block(x,y,64,64,AIR);
+								rects[i] = new Block(x,y,grid,grid,AIR);
 							}else{
-								rects[i] = new Block(x,y,64,64,GRASS);
+								rects[i] = new Block(x,y,grid,grid,GRASS);
 							}
 							
 							i++;
 						}else if(y >= 320){
 							int rand = 1 + (int)(Math.random() * ((3 - 1) + 1));
-							if(rand == 1)rects[i] = new Block(x,y,64,64,DIRT);
-							if(rand == 2)rects[i] = new Block(x,y,64,64,STONE);
-							if(rand == 3)rects[i] = new Block(x,y,64,64,AIR);
+							if(rand == 1)rects[i] = new Block(x,y,grid,grid,DIRT);
+							if(rand == 2)rects[i] = new Block(x,y,grid,grid,STONE);
+							if(rand == 3)rects[i] = new Block(x,y,grid,grid,AIR);
 							i++;
 						}else{
 							int randBlock = (int) Math.round(Math.random() * JOBBY);
-							rects[i] = new Block(x,y,64,64,randBlock);
+							rects[i] = new Block(x,y,grid,grid,randBlock);
 							i++;
 							if(i >= rects.length) break;
 						}

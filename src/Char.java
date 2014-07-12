@@ -186,17 +186,17 @@ public class Char {
 		}
 		
 		falling(); 
-		playerInv.printInventory();
+
 	}
 	
 	
 	
 	private void destroy(float x, float y) {
         playerHitBox.setLocation(x + 8,y + mapY);
+        int rowCount = genX / blockSize;
         
-        int startY =  Math.round(mapY) + 224 + 1;
-		int endY = Math.round(mapY + screenHeight) - 256 + 1;
-		
+        int startY =  (Math.round(mapY / blockSize))* rowCount + 1;          
+		int endY = (Math.round((mapY + screenHeight) / blockSize) - 1)* rowCount;
 		if(startY < 0) startY = 0;
 		if(endY > map.length) endY = map.length;
         
@@ -213,10 +213,10 @@ public class Char {
         
         float tweakedX = x + 4;
         float tweakedY = y + 8 + mapY;
-        
-        int startY =  Math.round(mapY) + 32*7 + 1;          
-		int endY = Math.round(mapY + screenHeight) - 32*8 + 1;
-		
+        int rowCount = genX / blockSize;
+        int startY =  (Math.round(mapY / blockSize))* rowCount + 1;          
+		int endY = (Math.round((mapY + screenHeight) / blockSize) - 1)* rowCount;
+
 		if(startY < 0) startY = 0;
 		if(endY > map.length) endY = map.length;
         

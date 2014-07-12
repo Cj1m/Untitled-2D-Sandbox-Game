@@ -20,10 +20,12 @@ public class terrainGen {
 	public int yGen;
 	public int grid;
 	
-	public void setup(){		
-		xGen = 1080/* - 32 * 2*/;
-		yGen = 960 * 8;
+	public void setup(int screenWidth){		
 		grid = 32;
+		xGen = 1080/* - 32 * 2*/;
+		xGen = Math.round(screenWidth / grid) * grid; 
+		yGen = 960 * 8;
+		
 		
 		int blocksX = (int) (Math.ceil((float)xGen / grid));
 		int blocksY = (int) (Math.ceil((float)yGen / grid));

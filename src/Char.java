@@ -28,13 +28,17 @@ public class Char {
 	private int screenHeight;
 	private int delta;
 	private int timer;
+	private int genX,genY,blockSize;
 	
-	public Char(String name, Block[] rects, float x, float y, int screenHeight) {
+	public Char(String name, terrainGen terGen, float x, float y, int screenHeight) {
 		this.name = name;
 		this.x = x;
 		this.y = y;
 		this.screenHeight = screenHeight;
-		map = rects;
+		map = terGen.rects;
+		genX = terGen.xGen;
+		genY = terGen.yGen;
+		blockSize = terGen.grid;
 		
 		try {
 			ss = new SpriteSheet("src/Assets/HumanWalkCaucasian.png", 32, 64);
@@ -51,14 +55,14 @@ public class Char {
 		walkingRightAnimation = new Animation(ss, 100);
 		walkingLeftAnimation = new Animation(ss2, 100);
 		
-		playerBoundingRect = new Rectangle(x,y, 28, 56);
+		playerBoundingRect = new Rectangle(x,y, 26, 56);
 		playerHitBox = new Rectangle(x,y,16,16);
 		playerInv = new Inventory();
-		mapY = -336;
+		mapY = -336 / 2;
 	}
 	
 	public void falling() {
-		if(!newIsBlocked(x, y + velY + 1f + 23)){
+		if(!isBlocked(x, y + velY + 1f)){
 			timer += delta;
 			
 			if(velY < 7){
@@ -80,7 +84,7 @@ public class Char {
 		
 		int KEYD = Input.KEY_D;
 		int KEYRIGHT = Input.KEY_RIGHT;
-
+		
 		int KEYA = Input.KEY_A;
 		int KEYLEFT = Input.KEY_LEFT;
 		
@@ -95,67 +99,67 @@ public class Char {
 		this.delta = delta;
 		
 		//MOVEMENT
-		if((input.isKeyDown(KEYSPACE) || input.isKeyDown(KEYW)) && !newIsBlocked(x, y + jumpHeight) && isOnGround == true){
+		if((input.isKeyDown(KEYSPACE) || input.isKeyDown(KEYW)) && !isBlocked(x, y + jumpHeight) && isOnGround == true){
 			velY = jumpHeight;
 		}
 		
 		
-		if((input.isKeyDown(KEYSPACE) || input.isKeyDown(KEYW)) && (input.isKeyDown(KEYD)) && !newIsBlocked(x + 5 + 20, y + jumpHeight) && isOnGround == true){
+		if((input.isKeyDown(KEYSPACE) || input.isKeyDown(KEYW)) && (input.isKeyDown(KEYD)) && !isBlocked(x + 5, y + jumpHeight) && isOnGround == true){
 			velY = jumpHeight;
 			x+= 5;
 		}else if (input.isKeyDown(KEYD)) {
-			if(!newIsBlocked(x + 5 + 20, y)){
+			if(!isBlocked(x + 5, y)){
 				x += 5;
 
 				isMovingRight = true;
 				isMovingLeft = false;
-			}else if(!newIsBlocked(x + 4 + 20, y)){
+			}else if(!isBlocked(x + 4, y)){
 				x += 4;
 
 				isMovingRight = true;
 				isMovingLeft = false;
-			}else if(!newIsBlocked(x + 3 + 20, y)){
+			}else if(!isBlocked(x + 3, y)){
 				x += 3;
 
 				isMovingRight = true;
 				isMovingLeft = false;
-			}else if(!newIsBlocked(x + 2 + 20, y)){
+			}else if(!isBlocked(x + 2, y)){
 				x += 2;
 
 				isMovingRight = true;
 				isMovingLeft = false;
-			}else if(!newIsBlocked(x + 1 + 20, y)){
+			}else if(!isBlocked(x + 1, y)){
 				x += 1;
 
 				isMovingRight = true;
 				isMovingLeft = false;
 			}
 			
-		}else if((input.isKeyDown(KEYSPACE) || input.isKeyDown(KEYW)) && (input.isKeyDown(KEYA)) && !newIsBlocked(x - 5 - 9, y + jumpHeight) && isOnGround == true){
+		}else if((input.isKeyDown(KEYSPACE) || input.isKeyDown(KEYW)) && (input.isKeyDown(KEYA)) && !isBlocked(x - 5, y + jumpHeight) && isOnGround == true){
 			velY = jumpHeight;
 			x-= 5;
 		}else if (input.isKeyDown(KEYA)) {
-			if(!newIsBlocked(x - 5 - 9, y)){
+			if(!isBlocked(x - 5, y)){
 				x -= 5;
 
 				isMovingRight = false;
 				isMovingLeft = true;
-			}else if(!newIsBlocked(x - 4- 9, y)){
+			}else if(!isBlocked(x - 4, y)){
 				x -= 4;
 
 				isMovingRight = false;
 				isMovingLeft = true;
-			}else if(!newIsBlocked(x - 3- 9, y)){
+			}else if(!isBlocked(x - 3, y)){
 				x -= 3;
 
 				isMovingRight = false;
 				isMovingLeft = true;
-			}else if(!newIsBlocked(x - 2- 9, y)){
+			}else if(!isBlocked(x - 2, y)){
 				x -= 2;
 
 				isMovingRight = false;
 				isMovingLeft = true;
-			}else if(!newIsBlocked(x - 1- 9, y)){
+			}else if(!isBlocked(x - 1, y)){
 				x -= 1;
 
 				isMovingRight = false;
@@ -188,48 +192,20 @@ public class Char {
 	
 	
 	private void destroy(float x, float y) {
-
         playerHitBox.setLocation(x + 8,y + mapY);
         
-        int startY = 64 * Math.round(mapY / 64) - 64;
-		int endY = 64 * Math.round((mapY + screenHeight) / 64) - 64;
+        int startY =  Math.round(mapY) + 224 + 1;
+		int endY = Math.round(mapY + screenHeight) - 256 + 1;
+		
+		if(startY < 0) startY = 0;
+		if(endY > map.length) endY = map.length;
         
-		for(int i = 0; i < map.length; i++){
-			if(map[i].getY() > startY && map[i].getY() < endY){
-				if(playerHitBox.intersects(map[i])){
-					if(map[i].type != 0){
-						playerInv.addItem(map[i].type);
-					
-						map[i].type = 0;
-					}
-				}
+		for(int i = startY; i < endY; i++){
+			if(playerHitBox.intersects(map[i]) && map[i].type != 0){
+				playerInv.addItem(map[i].type);	
+				map[i].type = 0;
 			}
 		}
-    }
-	
-	private boolean newIsBlocked(float x, float y) {
-        boolean blocked = false;
-        
-        
-        
-        int xGen = 1080;
-		int yGen = 960 * 8;
-		int grid =32;
-        
-		float tweakedX = x;
-        float tweakedY = y + mapY - grid;
-		
-       
-        
-        System.out.println((Math.round((tweakedX + playerBoundingRect.getWidth()) / map[1].getWidth()) - 1) * ((yGen / grid)) + Math.round((tweakedY + playerBoundingRect.getHeight()) / map[1].getWidth()));
-        
-        if(map[(int) ((Math.round((tweakedX + playerBoundingRect.getWidth()) / grid) - 1) * ((yGen / grid)) + Math.round((tweakedY + playerBoundingRect.getHeight()) / map[1].getWidth()))].type != 0){
-        	blocked = true;
-        }
-        if(map[(int) ((Math.round((tweakedX + playerBoundingRect.getWidth()) / grid) - 1) * ((yGen / grid)) + Math.round((tweakedY + playerBoundingRect.getHeight() / 2) / map[1].getWidth()))].type != 0){
-        	blocked = true;
-        }
-        return blocked;
     }
 	
 	private boolean isBlocked(float x, float y) {
@@ -238,20 +214,19 @@ public class Char {
         float tweakedX = x + 4;
         float tweakedY = y + 8 + mapY;
         
-        int startY = 64 * Math.round(mapY / 64) - 64;
-		int endY = 64 * Math.round((mapY + screenHeight) / 64) - 64;
+        int startY =  Math.round(mapY) + 32*7 + 1;          
+		int endY = Math.round(mapY + screenHeight) - 32*8 + 1;
+		
+		if(startY < 0) startY = 0;
+		if(endY > map.length) endY = map.length;
         
         playerBoundingRect.setLocation(tweakedX,tweakedY);
-		for(int i = 0; i < map.length; i++){
-			
-			if(map[i].getY() > startY && map[i].getY() < endY){
+		for(int i = startY; i < endY; i++){
 				if(playerBoundingRect.intersects(map[i])){
 					if(map[i].type != 0){
 						blocked = true;
 					}
 				}
-			}
-			
 		}
 		return blocked;
     }

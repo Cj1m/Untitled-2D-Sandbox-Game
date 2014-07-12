@@ -15,7 +15,7 @@
 	<classpathentry exported="true" kind="lib" path="src/libs/lwjgl_util.jar"/>
 	<classpathentry exported="true" kind="lib" path="src/libs/lwjgl.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="jobby-3/src/libs/native/windows"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="jobby-5/src/libs/native/windows"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="src/libs/natives-linux.jar"/>

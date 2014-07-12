@@ -21,7 +21,7 @@ public class terrainGen {
 	public int grid;
 	
 	public void setup(){		
-		xGen = 1080;
+		xGen = 1080/* - 32 * 2*/;
 		yGen = 960 * 8;
 		grid = 32;
 		
@@ -35,9 +35,9 @@ public class terrainGen {
 				
 				
 				int i = 0;
-				for(int x = 0; x < xGen; x += grid){
+				for(int y = 0; y < yGen; y += grid){
 					if(i >= rects.length) break;
-					for(int y = 0; y < yGen; y += grid){
+					for(int x = 0; x < xGen; x += grid){
 						if(y <= 128 + grid){
 							rects[i] = new Block(x,y,grid,grid,AIR);
 							i++;

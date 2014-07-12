@@ -1,6 +1,3 @@
-import java.util.Arrays;
-
-import org.json.simple.JSONObject;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Game;
@@ -8,7 +5,6 @@ import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
-import org.newdawn.slick.Music;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Rectangle;
 
@@ -20,6 +16,7 @@ public class main implements Game {
 	private float playerY;
 	private float beeX;
 	private float beeY;
+	private int screenHeight;
 	Input input;
 	Image Cosmos1 = null;
 	
@@ -35,9 +32,10 @@ public class main implements Game {
 
 	@Override
 	public void init(GameContainer con) throws SlickException {
+		screenHeight = con.getHeight();
 		terrain = new terrainGen();
 		terrain.setup();
-		player = new Char("Char", terrain.rects, 960, con.getScreenHeight() / 2 - 128, con.getHeight());
+		player = new Char("Char", terrain, 960, con.getScreenHeight() / 2 - 128, screenHeight);
 		bee = new Bee("Bee", terrain.rects, 64, 64);
 		Cosmos1 = new Image("src/Assets/Cosmos1.png");
 		input = con.getInput();
@@ -63,19 +61,21 @@ public class main implements Game {
 			bee.beeRight.draw(beeX,beeY- player.mapY);
 		}
 		
+		int startY =  Math.round(player.mapY) - 32 + 1;
+		int endY = Math.round(player.mapY + screenHeight) + 1;
 		
-		System.out.println(64 * Math.round(-player.mapY / 64));
-		for(int i = 0;i < terrain.rects.length; i++){
-			int startY = 64 * Math.round(player.mapY / 64) - 64;
-			int endY = 64 * Math.round((player.mapY + arg0.getScreenHeight()) / 64) - 64;
-			if(terrain.rects[i].getY() > startY && terrain.rects[i].getY() < endY){
-				Rectangle rect = new Rectangle(terrain.rects[i].getX(),terrain.rects[i].getY(),terrain.rects[i].getWidth(),terrain.rects[i].getHeight());
-				g.setColor(terrain.BlockColor(terrain.rects[i].type));
-				g.fillRect(rect.getX(), rect.getY() - player.mapY, rect.getWidth(), rect.getHeight());
-				g.setColor(RRGGBB.black);
-				g.drawString("" + i, terrain.rects[i].getX(), terrain.rects[i].getY() - player.mapY);
-				//System.out.println((Math.round((player.x + player.playerBoundingRect.getWidth()) / rect.getWidth()) - 1) * ((terrain.yGen / terrain.grid)) + Math.round((player.mapY + player.y + player.playerBoundingRect.getWidth()) / rect.getWidth()));
-			}
+		if(startY < 0) startY = 0;
+		if(endY > terrain.rects.length) endY = terrain.rects.length;
+		
+        
+		
+		
+		for(int i = startY;i < endY; i++){
+			Rectangle rect = new Rectangle(terrain.rects[i].getX(),terrain.rects[i].getY(),terrain.rects[i].getWidth(),terrain.rects[i].getHeight());
+			g.setColor(terrain.BlockColor(terrain.rects[i].type));
+			g.fillRect(rect.getX(), rect.getY() - player.mapY, rect.getWidth(), rect.getHeight());
+			g.setColor(RRGGBB.black);
+			//g.drawString("" + i, terrain.rects[i].getX(), terrain.rects[i].getY() - player.mapY);
 		}
 		
 		int invX = 8;
@@ -83,28 +83,30 @@ public class main implements Game {
 		g.drawString("INVENTORY", 8, 30);
 		g.setColor(RRGGBB.black);
 		
-		for(int i = 0; i < player.playerInv.inv.length; i++){
-			player.playerInv.inv[i].setLocation(invX , 50);
-			
-			g.setColor(RRGGBB.white);
-			g.setLineWidth(4);
-			g.draw(player.playerInv.inv[i]);
-			
-			if(player.playerInv.inv[i].type == 0){
+		for(int i = 0; i < 16; i++){
+			if(player.playerInv.inv[i] != null){
+				player.playerInv.inv[i].setLocation(invX , 50);
+				
 				g.setColor(RRGGBB.white);
-			}else{
-				g.setColor(terrain.BlockColor(player.playerInv.inv[i].type));
+				g.setLineWidth(4);
+				g.draw(player.playerInv.inv[i]);
+				
+				if(player.playerInv.inv[i].type == 0){
+					g.setColor(RRGGBB.white);
+				}else{
+					g.setColor(terrain.BlockColor(player.playerInv.inv[i].type));
+				}
+				
+				g.fill(player.playerInv.inv[i]);
+				
+				g.setLineWidth(1);
+				g.setColor(Color.black);
+				invX+= 8 + 16;
 			}
-			
-			g.fill(player.playerInv.inv[i]);
-			
-			g.setLineWidth(1);
-			g.setColor(Color.black);
-			invX+= 8 + 16;
 		}
 		
-		//g.draw(player.playerBoundingRect);
-		g.drawRect(player.playerBoundingRect.getX(), player.playerBoundingRect.getY() - player.mapY, player.playerBoundingRect.getWidth(), player.playerBoundingRect.getHeight());
+		//g.draw(player.playerBoundingRect); needs to be bit-level not a rectangle!!!
+		//g.drawRect(player.playerBoundingRect.getX(), player.playerBoundingRect.getY() - player.mapY, player.playerBoundingRect.getWidth(), player.playerBoundingRect.getHeight());
 		g.drawRect(bee.beeBoundingRect.getX(), bee.beeBoundingRect.getY() - player.mapY, bee.beeBoundingRect.getWidth(),bee.beeBoundingRect.getHeight());
 	}
 
@@ -128,8 +130,9 @@ public class main implements Game {
 	public static void main(String[] args) {
 		try {
 			AppGameContainer app = new AppGameContainer(new main());
-			app.setDisplayMode(1080, 960, false);
+			app.setDisplayMode(1280, 768, false); //was 960 and 1080
 			app.setTargetFrameRate(60);
+			app.setFullscreen(false);;
 			app.start();
 		} catch (SlickException e) {
 			e.printStackTrace();

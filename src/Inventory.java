@@ -1,5 +1,7 @@
 public class Inventory {
 	Block[] inv;
+	private int invCount = 0; //instead of having to iterate all the time!
+	
 	
 	public Inventory(){
 		inv = new Block[16];
@@ -11,24 +13,14 @@ public class Inventory {
 	
 	public void addItem(int type){
 		if(!isFull()){
-			for(int i = 0; i < inv.length; i++){
-				if(inv[i].type == 0){
-					inv[i].type = type;
-					break;
-				}
-			}
+			inv[invCount].type = type;
+			invCount++;
 		}
 	}
-	
+		
 	private boolean isFull(){
-		boolean full = true;
-		
-		for(Block i : inv){
-			if(i.type == 0){
-				full = false;
-			}
-		}
-		
+		boolean full = false;
+		if(invCount == inv.length) full = true;
 		return full;
 	}
 	

@@ -34,7 +34,7 @@ public class main implements Game {
 	public void init(GameContainer con) throws SlickException {
 		screenHeight = con.getHeight();
 		terrain = new terrainGen();
-		terrain.setup(con.getScreenWidth());
+		terrain.setup(con.getWidth());
 		player = new Char("Char", terrain, 960, con.getScreenHeight() / 2 - 256, screenHeight);
 		bee = new Bee("Bee", terrain.rects, 64, 64);
 		Cosmos1 = new Image("src/Assets/Cosmos1.png");
@@ -63,9 +63,9 @@ public class main implements Game {
 		
 		int blockSize = terrain.grid;
 		int rowCount = terrain.xGen / blockSize;
-		
-		int startY =  (Math.round(player.mapY / blockSize))* (rowCount + 1);          
-		int endY = (Math.round((player.mapY + screenHeight) / blockSize))* (rowCount + 1);
+		System.out.println(rowCount);
+		int startY =  (Math.round(player.mapY / blockSize))* (rowCount);          
+		int endY = (Math.round((player.mapY + screenHeight) / blockSize))* (rowCount);
 		
 		if(startY < 0) startY = 0;
 		if(endY > terrain.rects.length) endY = terrain.rects.length;

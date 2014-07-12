@@ -22,7 +22,7 @@ public class terrainGen {
 	
 	public void setup(int screenWidth){		
 		grid = 32;
-		xGen = 1080/* - 32 * 2*/;
+		xGen = 1080 - 32 * 2;
 		xGen = Math.round(screenWidth / grid) * grid; 
 		yGen = 960 * 8;
 		

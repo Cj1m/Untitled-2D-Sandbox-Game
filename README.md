@@ -11,7 +11,7 @@ Here is the to do list for the game (which I (Cj1m) am hoping to finish by 23rd 
 In chronological order:
 
 - [x] Get collision done well enough (efficient and working)
-- [ ] Break blocks with the mouse instead of the arrow keys
+- [x] Break blocks with the mouse instead of the arrow keys
 - [ ] Make blocks tougher to break
 - [ ] Make a timer for the sides to drop off
 - [ ] Implement crafting

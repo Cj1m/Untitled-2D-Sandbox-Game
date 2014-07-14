@@ -12,6 +12,7 @@ In chronological order:
 
 - [x] Get collision done well enough (efficient and working)
 - [ ] Break blocks with the mouse instead of the arrow keys
+- [ ] Make blocks tougher to break
 - [ ] Make a timer for the sides to drop off
 - [ ] Implement crafting
 - [ ] Draw some boss art

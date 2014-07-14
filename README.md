@@ -20,7 +20,7 @@ Here is the to do list for the game (which I (Cj1m) am hoping to finish by 23rd 
 
 BONUS TASK
 
--[ ] Make an ending for the game
+- [ ] Make an ending for the game
 
 I have just over 9 days to complete this, and since 8BitSandy, the game artist, is on holiday, I am going to have to
 draw the rest of the game by myself (lucky it is just a prototype)

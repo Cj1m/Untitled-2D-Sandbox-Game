@@ -79,11 +79,21 @@ public class terrainGen {
 		
 	}
 	
+<<<<<<< HEAD
+=======
+	public void breakBlock(Block block, Inventory inv, int delta){
+		
+	}
+>>>>>>> 1b2d690491484d9b96f8d037266ed97315e585fb
 	
 	public Color BlockColor(int type){
 		Color c = null;
 		 
+<<<<<<< HEAD
 		if(type == -1)c = RRGGBB.white;
+=======
+		
+>>>>>>> 1b2d690491484d9b96f8d037266ed97315e585fb
 		if(type == DIRT) c = new RRGGBB(87,59,12);
 		if(type == GRASS)c = RRGGBB.green;
 		if(type == AIR)c = RRGGBB.transparent;

@@ -29,8 +29,8 @@ public class Char {
 	private int delta;
 	private int timer;
 	private int type;
-	private int blockBreakTimer;
 	private int blockAnimTimer;
+	private int blockBreakTimer;
 	private int genX,genY,blockSize;
 	
 	public Char(String name, terrainGen terGen, float x, float y, int screenHeight) {
@@ -212,7 +212,6 @@ public class Char {
 		playerHitBox.setLocation(mouseX, mouseY + mapY);
 		for(int i = startY; i < endY; i++){
 			if(playerHitBox.intersects(map[i]) && map[i].type != 0){
-				
 				if(map[i].type != -1)type = map[i].type;
 				blockBreakTimer += delta;
 				blockAnimTimer += delta;
@@ -220,6 +219,7 @@ public class Char {
 					map[i].switchBlockColor(type);
 					blockAnimTimer = 0;
 				}
+				blockBreakTimer += delta;
 				if(blockBreakTimer > map[i].breakTime){
 					playerInv.addItem(type);
 					map[i].type = 0;

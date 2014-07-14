@@ -110,6 +110,7 @@ public class main implements Game {
 		
 		//g.draw(player.playerBoundingRect); needs to be bit-level not a rectangle!!!
 		//g.drawRect(player.playerBoundingRect.getX(), player.playerBoundingRect.getY() - player.mapY, player.playerBoundingRect.getWidth(), player.playerBoundingRect.getHeight());
+		g.draw(player.playerHitBox);
 		g.drawRect(bee.beeBoundingRect.getX(), bee.beeBoundingRect.getY() - player.mapY, bee.beeBoundingRect.getWidth(),bee.beeBoundingRect.getHeight());
 	}
 

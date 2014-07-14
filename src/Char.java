@@ -28,6 +28,7 @@ public class Char {
 	private int screenHeight;
 	private int delta;
 	private int timer;
+	private int blockBreakTimer;
 	private int genX,genY,blockSize;
 	
 	public Char(String name, terrainGen terGen, float x, float y, int screenHeight) {
@@ -56,7 +57,7 @@ public class Char {
 		walkingLeftAnimation = new Animation(ss2, 100);
 		
 		playerBoundingRect = new Rectangle(x,y, 26, 56);
-		playerHitBox = new Rectangle(x,y,16,16);
+		playerHitBox = new Rectangle(x,y,1,1);
 		playerInv = new Inventory();
 		mapY = -336 / 2;
 	}
@@ -81,6 +82,7 @@ public class Char {
 
 	public void movement(Input input, int delta, Block[] map) {
 		this.map = map;
+		int MOUSE = Input.MOUSE_LEFT_BUTTON;
 		
 		int KEYD = Input.KEY_D;
 		int KEYRIGHT = Input.KEY_RIGHT;
@@ -172,7 +174,11 @@ public class Char {
 		
 		//SANDBOX
 		
-		if(input.isKeyDown(KEYUP)){
+		if(input.isMouseButtonDown(MOUSE)){
+			destroy(input.getMouseX(), input.getMouseY());
+		}
+		
+		/*if(input.isKeyDown(KEYUP)){
 			destroy(x,y - 32);
 		}
 		if(input.isKeyDown(KEYDOWN)){
@@ -183,18 +189,15 @@ public class Char {
 		}
 		if(input.isKeyDown(KEYRIGHT)){
 			destroy(x + 32,y + 32);
-		}
+		}*/
 		
 		falling(); 
-
 	}
 	
 	
 	
-	private void destroy(float x, float y) {
-        playerHitBox.setLocation(x + 8,y + mapY);
-        int rowCount = genX / blockSize;
-        
+	private void destroy(int x, int y) {
+        /*playerHitBox.setLocation(x + 8,y + mapY); 
         int startY =  (Math.round(mapY / blockSize))* rowCount + 1;          
 		int endY = (Math.round((mapY + screenHeight) / blockSize) - 1)* rowCount;
 		if(startY < 0) startY = 0;
@@ -204,6 +207,27 @@ public class Char {
 			if(playerHitBox.intersects(map[i]) && map[i].type != 0){
 				playerInv.addItem(map[i].type);	
 				map[i].type = 0;
+			}
+		}*/
+		int mouseX = x;
+		int mouseY = y;
+		
+		int rowCount = genX / blockSize;
+		int startY =  (Math.round(mapY / blockSize))* rowCount + 1;          
+		int endY = (Math.round((mapY + screenHeight) / blockSize) - 1)* rowCount;
+		
+		if(startY < 0) startY = 0;
+		if(endY > map.length) endY = map.length;
+		
+		playerHitBox.setLocation(mouseX, mouseY + mapY);
+		for(int i = startY; i < endY; i++){
+			if(playerHitBox.intersects(map[i]) && map[i].type != 0){
+				blockBreakTimer += delta;
+				if(blockBreakTimer > map[i].breakTime){
+					playerInv.addItem(map[i].type);
+					map[i].type = 0;
+					blockBreakTimer = 0;
+				}
 			}
 		}
     }

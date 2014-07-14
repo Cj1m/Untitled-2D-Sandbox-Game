@@ -6,7 +6,7 @@ import org.newdawn.slick.Color;
 public class terrainGen {
 	public Block[] rects;
 	public boolean finishedGen = false;
-	
+	private int timer;
 	//BLOCKS
 	public final int AIR = 0;
 	public final int DIRT = 1;
@@ -76,6 +76,10 @@ public class terrainGen {
 			}
 			
 		};t2.start();
+		
+	}
+	
+	public void breakBlock(Block block, Inventory inv, int delta){
 		
 	}
 	

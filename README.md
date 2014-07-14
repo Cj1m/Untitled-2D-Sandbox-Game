@@ -7,10 +7,11 @@ the fifth big crap
 This is a collaboration between Cj1m and 8BitSandy. It is also a prototype, so the code may seem very messy and cluttured at the moment.
 Jobby-5 will be the first Java game I have finished (Cj1m).
 
-Here is the to do list for the game (which I (Cj1m) am hoping to finish by 23rd July 2014)
+Here is the to do list for the game (which I (Cj1m) am hoping to finish by 23rd July 2014).
+In chronological order:
 
 - [x] Get collision done well enough (efficient and working)
-- [ ] Break blocks with the mouse
+- [ ] Break blocks with the mouse instead of the arrow keys
 - [ ] Make a timer for the sides to drop off
 - [ ] Implement crafting
 - [ ] Draw some boss art

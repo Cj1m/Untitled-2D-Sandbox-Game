@@ -20,11 +20,20 @@ public class terrainGen {
 	public int yGen;
 	public int grid;
 	
+	private int outsideCounter;
+	private int outsideTimesCounter;
+	private int rightOutsideCounter;
+	private int rightOutsideTimesCounter;
+	
 	public void setup(int screenWidth){		
 		grid = 32;
 		xGen = 1080 - 32 * 2;
 		xGen = Math.round(screenWidth / grid) * grid; 
 		yGen = 960 * 8;
+		outsideCounter = 0;
+		outsideTimesCounter = 0;
+		rightOutsideCounter = xGen / grid - 1;
+		rightOutsideTimesCounter = xGen / grid - 1;
 		
 		
 		int blocksX = (int) (Math.ceil((float)xGen / grid));
@@ -65,13 +74,9 @@ public class terrainGen {
 							i++;
 							if(i >= rects.length) break;
 						}
+						System.out.println(i);
 					}
 				}
-				
-				for(int j = 0; j < rects.length; j++){
-					
-				}
-				
 				finishedGen = true;
 			}
 			
@@ -79,21 +84,29 @@ public class terrainGen {
 		
 	}
 	
-<<<<<<< HEAD
-=======
-	public void breakBlock(Block block, Inventory inv, int delta){
-		
-	}
->>>>>>> 1b2d690491484d9b96f8d037266ed97315e585fb
 	
+	public void removeOutside(){
+		if(outsideTimesCounter < xGen / grid / 2){
+			for(int i = 0; i < yGen / grid; i++){
+				rects[outsideCounter].type = 0;
+				outsideCounter += xGen / grid;
+			}
+			for(int i = 0; i < yGen / grid; i++){
+				rects[rightOutsideCounter].type = 0;
+				rightOutsideCounter += xGen / grid;
+				System.out.println(rightOutsideCounter);
+			}
+			outsideTimesCounter++;
+			outsideCounter = outsideTimesCounter;
+			rightOutsideTimesCounter--;
+			rightOutsideCounter = rightOutsideTimesCounter;
+			
+		}
+	}
 	public Color BlockColor(int type){
 		Color c = null;
 		 
-<<<<<<< HEAD
 		if(type == -1)c = RRGGBB.white;
-=======
-		
->>>>>>> 1b2d690491484d9b96f8d037266ed97315e585fb
 		if(type == DIRT) c = new RRGGBB(87,59,12);
 		if(type == GRASS)c = RRGGBB.green;
 		if(type == AIR)c = RRGGBB.transparent;

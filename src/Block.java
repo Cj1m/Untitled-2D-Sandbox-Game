@@ -10,7 +10,6 @@ public class Block extends Rectangle{
 		this.type = type;
 		
 		if(type == 0) breakTime = 0;
-<<<<<<< HEAD
 		if(type == 1) breakTime = 1 * 1000;
 		if(type == 2) breakTime = 1 * 1000;
 		if(type == 3) breakTime = 0.1f * 1000;
@@ -24,12 +23,5 @@ public class Block extends Rectangle{
 		} else{
 			this.type = type;
 		}
-=======
-		if(type == 1) breakTime = 1;
-		if(type == 2) breakTime = 1;
-		if(type == 3) breakTime = 0.1f;
-		if(type == 4) breakTime = 0.1f;
-		if(type == 5) breakTime = 4;
->>>>>>> 1b2d690491484d9b96f8d037266ed97315e585fb
 	}
 }

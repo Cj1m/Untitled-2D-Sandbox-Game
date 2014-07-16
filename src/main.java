@@ -1,16 +1,21 @@
 import java.awt.Font;
+import org.lwjgl.input.Mouse;
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.Color;
+import org.newdawn.slick.BasicGame;
 import org.newdawn.slick.Game;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 import org.newdawn.slick.Input;
+import org.newdawn.slick.MouseListener;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.TrueTypeFont;
 import org.newdawn.slick.geom.Rectangle;
+import org.newdawn.slick.state.BasicGameState;
+import org.newdawn.slick.state.StateBasedGame;
 
-public class main implements Game {
+public class main extends BasicGameState implements Game{
 	private Char player;
 	private Bee bee;
 	public terrainGen terrain;
@@ -21,6 +26,7 @@ public class main implements Game {
 	private int screenHeight;
 	private int blockDropTimer;
 	private int blockDropTime;
+	public int selectedInv;
 	
 	private Font titleFont;
 	private TrueTypeFont titleTtf;
@@ -49,6 +55,16 @@ public class main implements Game {
 		bee = new Bee("Bee", terrain.rects, 64, 64);
 		Cosmos1 = new Image("src/Assets/Cosmos1.png");
 		input = con.getInput();
+		
+		titleFont = new Font("Serif", Font.BOLD, 46);
+		titleTtf = new TrueTypeFont(titleFont, true);
+		deathNoteFont = new Font("Serif", Font.ITALIC, 22);
+		deathTtf = new TrueTypeFont(deathNoteFont, true);
+		restart = new Rectangle(con.getWidth() / 2 - 256 / 2, con.getHeight() / 2 - 128 + 200, 256, 128);
+		blockDropTimer = 0;
+		blockDropTime = 59 * 1000;
+		
+		selectedInv = 0;
 	}
 
 
@@ -74,7 +90,7 @@ public class main implements Game {
 			
 			int blockSize = terrain.grid;
 			int rowCount = terrain.xGen / blockSize;
-			System.out.println(rowCount);
+
 			int startY =  (Math.round(player.mapY / blockSize))* (rowCount);          
 			int endY = (Math.round((player.mapY + screenHeight) / blockSize))* (rowCount);
 			
@@ -98,25 +114,27 @@ public class main implements Game {
 			g.setColor(RRGGBB.black);
 			
 			for(int i = 0; i < 16; i++){
-				if(player.playerInv.inv[i] != null){
-					player.playerInv.inv[i].setLocation(invX , 50);
-					
-					g.setColor(RRGGBB.white);
-					g.setLineWidth(4);
-					g.draw(player.playerInv.inv[i]);
-					
-					if(player.playerInv.inv[i].type == 0){
-						g.setColor(RRGGBB.white);
-					}else{
-						g.setColor(terrain.BlockColor(player.playerInv.inv[i].type));
-					}
-					
-					g.fill(player.playerInv.inv[i]);
-					
-					g.setLineWidth(1);
-					g.setColor(Color.black);
-					invX+= 8 + 16;
+				player.playerInv.inv[i].setLocation(invX , 50);	
+				g.setColor(RRGGBB.white);
+				g.setLineWidth(4);
+				if(selectedInv == i){ /*yoda*/ 
+					g.setColor(RRGGBB.magenta); 
+					g.setLineWidth(10);
 				}
+				
+				g.draw(player.playerInv.inv[i]);
+					
+				if(player.playerInv.inv[i].type == 0){
+					g.setColor(RRGGBB.white);
+				}else{
+					g.setColor(terrain.BlockColor(player.playerInv.inv[i].type));
+				}
+					
+				g.fill(player.playerInv.inv[i]);
+					
+				g.setLineWidth(1);
+				g.setColor(Color.black);
+				invX+= 8 + 16;
 			}
 			
 			//g.draw(player.playerBoundingRect); needs to be bit-level not a rectangle!!!
@@ -138,6 +156,8 @@ public class main implements Game {
 		}
 	}
 
+
+	
 	@Override
 	public void update(GameContainer container, int delta)
 			throws SlickException {
@@ -148,7 +168,11 @@ public class main implements Game {
 			playerY = player.y;
 			beeX = bee.x;
 			beeY = bee.y;
-		
+			
+			if(input.isKeyDown(input.KEY_Q)){
+					player.playerInv.removeItem(selectedInv);
+			}
+			
 			bee.movement(input, delta, playerX, playerY, player.mapY);
 			player.movement(input, delta, terrain.rects);
 			
@@ -182,5 +206,43 @@ public class main implements Game {
 			e.printStackTrace();
 		}
 	}
+
+	
+	
+	@Override 
+	public void mouseWheelMoved(int change){
+		selectedInv += change / 120;
+		if(selectedInv > player.playerInv.inv.length - 1) selectedInv = 0;
+		if(selectedInv < 0) selectedInv = player.playerInv.inv.length -1;
+		
+	}
+
+	@Override
+	public void init(GameContainer arg0, StateBasedGame arg1)
+			throws SlickException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void render(GameContainer arg0, StateBasedGame arg1, Graphics arg2)
+			throws SlickException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(GameContainer arg0, StateBasedGame arg1, int arg2)
+			throws SlickException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public int getID() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
 	
 }

@@ -11,7 +11,7 @@ public class Inventory {
 		}
 	}
 	
-	public void addItem(int type){
+	public void addItem(int type){ 
 		if(!isFull()){
 			inv[invCount].type = type;
 			invCount++;

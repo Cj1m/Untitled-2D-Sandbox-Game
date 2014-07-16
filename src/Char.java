@@ -22,6 +22,8 @@ public class Char {
 	public Rectangle playerHitBox;
 	public Block[] map;
 	public Inventory playerInv;
+	public boolean isDead = false;
+	public String causeOfDeath;
 	
 	private float velY;
 	
@@ -33,15 +35,16 @@ public class Char {
 	private int blockAnimTimer;
 	private int genX,genY,blockSize;
 	
-	public Char(String name, terrainGen terGen, float x, float y, int screenHeight) {
+	public Char(String name, main main, float x, float y, int screenHeight) {
 		this.name = name;
 		this.x = x;
 		this.y = y;
 		this.screenHeight = screenHeight;
-		map = terGen.rects;
-		genX = terGen.xGen;
-		genY = terGen.yGen;
-		blockSize = terGen.grid;
+		map = main.terrain.rects;
+		genX = main.terrain.xGen;
+		genY = main.terrain.yGen;
+		blockSize = main.terrain.grid;
+		causeOfDeath = "";
 		
 		try {
 			ss = new SpriteSheet("src/Assets/HumanWalkCaucasian.png", 32, 64);
@@ -67,18 +70,23 @@ public class Char {
 	public void falling() {
 		if(!isBlocked(x, y + velY + 1f)){
 			timer += delta;
-			
-			if(velY < 7){
-				if(timer > 1 * 50){
+
+			if(velY < 16){
+				if(timer > 100){
 					velY = velY += 1f;
 					timer = 0;
 				}
 			}
 			mapY += velY;
 			isOnGround = false;
+		}else if(velY < 16){
+				velY = 0;	
+				isOnGround = true;
 		}else{
 			velY = 0;	
 			isOnGround = true;
+			isDead = true;
+			causeOfDeath = "You fell too fast";
 		}
 	}
 
@@ -86,17 +94,11 @@ public class Char {
 		this.map = map;
 		int MOUSE = Input.MOUSE_LEFT_BUTTON;
 		
-		int KEYD = Input.KEY_D;
-		int KEYRIGHT = Input.KEY_RIGHT;
-		
-		int KEYA = Input.KEY_A;
-		int KEYLEFT = Input.KEY_LEFT;
-		
-		int KEYSPACE = Input.KEY_SPACE;
-		int KEYW = Input.KEY_W;
-		int KEYUP = Input.KEY_UP;
-		
-		int KEYDOWN = Input.KEY_DOWN;
+		final int KEYD = Input.KEY_D;
+		final int KEYA = Input.KEY_A;
+		final int KEYSPACE = Input.KEY_SPACE;
+		final int KEYW = Input.KEY_W;
+		final int KEYEND = Input.KEY_END;
 		
 		int jumpHeight = -8;
 	
@@ -174,28 +176,15 @@ public class Char {
 			isMovingLeft = false;
 		}
 		
+		if(input.isKeyPressed(KEYEND)){
+			isDead = true;
+			causeOfDeath = "You End-ed your own life";
+		}
 		//SANDBOX
-		
-		if(input.isMouseButtonDown(MOUSE)){
-			destroy(input.getMouseX(), input.getMouseY());
-		}
-		
-		/*if(input.isKeyDown(KEYUP)){
-			destroy(x,y - 32);
-		}
-		if(input.isKeyDown(KEYDOWN)){
-			destroy(x,y + 64);
-		}
-		if(input.isKeyDown(KEYLEFT)){
-			destroy(x - 32,y + 32);
-		}
-		if(input.isKeyDown(KEYRIGHT)){
-			destroy(x + 32,y + 32);
-		}*/
+		if(input.isMouseButtonDown(MOUSE)) destroy(input.getMouseX(), input.getMouseY());
 		
 		falling(); 
 	}
-	
 	
 	
 	private void destroy(int x, int y) {
@@ -212,7 +201,6 @@ public class Char {
 		playerHitBox.setLocation(mouseX, mouseY + mapY);
 		for(int i = startY; i < endY; i++){
 			if(playerHitBox.intersects(map[i]) && map[i].type != 0){
-				
 				if(map[i].type != -1)type = map[i].type;
 				blockBreakTimer += delta;
 				blockAnimTimer += delta;
@@ -220,6 +208,7 @@ public class Char {
 					map[i].switchBlockColor(type);
 					blockAnimTimer = 0;
 				}
+				blockBreakTimer += delta;
 				if(blockBreakTimer > map[i].breakTime){
 					playerInv.addItem(type);
 					map[i].type = 0;

@@ -6,7 +6,7 @@ import org.newdawn.slick.Color;
 public class terrainGen {
 	public Block[] rects;
 	public boolean finishedGen = false;
-	private int timer;
+
 	//BLOCKS
 	public final int AIR = 0;
 	public final int DIRT = 1;
@@ -20,11 +20,22 @@ public class terrainGen {
 	public int yGen;
 	public int grid;
 	
+	private int outsideCounter;
+	private int outsideTimesCounter;
+	private int rightOutsideCounter;
+	private int rightOutsideTimesCounter;
+	
+
 	public void setup(int screenWidth){		
 		grid = 32;
 		xGen = 1080 - 32 * 2;
 		xGen = Math.round(screenWidth / grid) * grid; 
 		yGen = 960 * 8;
+
+		outsideCounter = 0;
+		outsideTimesCounter = 0;
+		rightOutsideCounter = xGen / grid - 1;
+		rightOutsideTimesCounter = xGen / grid - 1;
 		
 		
 		int blocksX = (int) (Math.ceil((float)xGen / grid));
@@ -67,19 +78,30 @@ public class terrainGen {
 						}
 					}
 				}
-				
-				for(int j = 0; j < rects.length; j++){
-					
-				}
-				
 				finishedGen = true;
 			}
-			
-		};t2.start();
+			};t2.start();
 		
+		}
+	
+	public void removeOutside(){
+		if(outsideTimesCounter < xGen / grid / 2){
+			for(int i = 0; i < yGen / grid; i++){
+				rects[outsideCounter].type = 0;
+				outsideCounter += xGen / grid;
+			}
+			for(int i = 0; i < yGen / grid; i++){
+				rects[rightOutsideCounter].type = 0;
+				rightOutsideCounter += xGen / grid;
+				System.out.println(rightOutsideCounter);
+			}
+			outsideTimesCounter++;
+			outsideCounter = outsideTimesCounter;
+			rightOutsideTimesCounter--;
+			rightOutsideCounter = rightOutsideTimesCounter;
+			
+		}
 	}
-	
-	
 	public Color BlockColor(int type){
 		Color c = null;
 		 

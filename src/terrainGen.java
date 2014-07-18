@@ -22,8 +22,8 @@ public class terrainGen {
 	public final int MOONSTONE = 10;
 	public final int AMETHYST = 11;
 	public final int ALUMINIUM = 12;
-	//INSERT MORE BLOCKS HERE 
-	public final int INFINITESTONE = 16;
+	public final int INFINITESTONE = 13;
+	public final int INDESTRUCTUBLOCK = 14;
 	
 	public int xGen;
 	public int yGen;
@@ -39,7 +39,7 @@ public class terrainGen {
 		grid = 32;
 		xGen = 1080 - 32 * 2;
 		xGen = Math.round(screenWidth / grid) * grid; 
-		yGen = 960 * 8;
+		yGen = 960 * 4;
 
 		outsideCounter = 0;
 		outsideTimesCounter = 0;
@@ -73,7 +73,7 @@ public class terrainGen {
 							}
 							
 							i++;
-						}else if (y > 960 && y < 1600){
+						}else if (y > 960 && y < 1600){ //BRONZE AND COAL OUTER GEN
 							if(x == 0 || x == xGen){
 								int randBronze = (int) Math.round(Math.random() * 5);
 								if(randBronze == 5){
@@ -111,6 +111,81 @@ public class terrainGen {
 								i++;
 							}
 							
+						}else if(y > 1600 && y < 2240 && (x == 64 || x == xGen - 64)){ //SILVER OUTER GEN
+							int randSilver= (int) Math.round(Math.random() * 6);
+							if(randSilver == 1){
+								rects[i] = new Block(x,y,grid,grid,SILVER);
+								i++;
+							}else{
+								int rand = 1 + (int)(Math.random() * ((3 - 1) + 1));
+								if(rand == 1)rects[i] = new Block(x,y,grid,grid,DIRT);
+								if(rand == 2)rects[i] = new Block(x,y,grid,grid,STONE);
+								if(rand == 3)rects[i] = new Block(x,y,grid,grid,AIR);
+								i++;
+							}
+						}else if(y > 2240 && y < 2720 && (x == 64 || x == xGen - 64 || x == 96 || x == xGen - 96)){ //GOLD OUTER GEN
+							int randGold= (int) Math.round(Math.random() * 6);
+							if(randGold == 1){
+								rects[i] = new Block(x,y,grid,grid,GOLD);
+								i++;
+							}else{
+								int rand = 1 + (int)(Math.random() * ((3 - 1) + 1));
+								if(rand == 1)rects[i] = new Block(x,y,grid,grid,DIRT);
+								if(rand == 2)rects[i] = new Block(x,y,grid,grid,STONE);
+								if(rand == 3)rects[i] = new Block(x,y,grid,grid,AIR);
+								i++;
+							}
+						}else if(y > 2720 && y < 3200 && (x == 64 || x == xGen - 64 || x == 128 || x == xGen - 128 || x == xGen - 96 || x == 96)){ //ALUMINIUM OUTER GEN
+							int randAl= (int) Math.round(Math.random() * 7);
+							if(randAl == 1){
+								rects[i] = new Block(x,y,grid,grid,ALUMINIUM);
+								i++;
+							}else{
+								int rand = 1 + (int)(Math.random() * ((3 - 1) + 1));
+								if(rand == 1)rects[i] = new Block(x,y,grid,grid,DIRT);
+								if(rand == 2)rects[i] = new Block(x,y,grid,grid,STONE);
+								if(rand == 3)rects[i] = new Block(x,y,grid,grid,AIR);
+								i++;
+							}
+						}else if(y > 1600 && y < 2240){ //SILVER SPREAD
+							int randSilver= (int) Math.round(Math.random() * 150);
+							if(randSilver == 1){
+								rects[i] = new Block(x,y,grid,grid,SILVER);
+								i++;
+							}else{
+								int rand = 1 + (int)(Math.random() * ((3 - 1) + 1));
+								if(rand == 1)rects[i] = new Block(x,y,grid,grid,DIRT);
+								if(rand == 2)rects[i] = new Block(x,y,grid,grid,STONE);
+								if(rand == 3)rects[i] = new Block(x,y,grid,grid,AIR);
+								i++;
+							}
+						}else if(y > 2240 && y < 2720){ //GOLD SPREAD
+							int randGold= (int) Math.round(Math.random() * 200);
+							if(randGold == 1){
+								rects[i] = new Block(x,y,grid,grid,GOLD);
+								i++;
+							}else{
+								int rand = 1 + (int)(Math.random() * ((3 - 1) + 1));
+								if(rand == 1)rects[i] = new Block(x,y,grid,grid,DIRT);
+								if(rand == 2)rects[i] = new Block(x,y,grid,grid,STONE);
+								if(rand == 3)rects[i] = new Block(x,y,grid,grid,AIR);
+								i++;
+							}
+						}else if(y > 2720 && y < 3200){ //ALUMINIUM SPREAD
+							int randAl= (int) Math.round(Math.random() * 175);
+							if(randAl == 1){
+								rects[i] = new Block(x,y,grid,grid,ALUMINIUM);
+								i++;
+							}else{
+								int rand = 1 + (int)(Math.random() * ((3 - 1) + 1));
+								if(rand == 1)rects[i] = new Block(x,y,grid,grid,DIRT);
+								if(rand == 2)rects[i] = new Block(x,y,grid,grid,STONE);
+								if(rand == 3)rects[i] = new Block(x,y,grid,grid,AIR);
+								i++;
+							}
+						}else if(y == yGen - 32){
+							rects[i] = new Block(x,y,grid,grid,INDESTRUCTUBLOCK);
+							i++;
 						}else if(y >= 320){
 							int rand = 1 + (int)(Math.random() * ((3 - 1) + 1));
 							if(rand == 1)rects[i] = new Block(x,y,grid,grid,DIRT);
@@ -134,11 +209,11 @@ public class terrainGen {
 	public void removeOutside(){
 		if(outsideTimesCounter < xGen / grid / 2){
 			for(int i = 0; i < yGen / grid; i++){
-				rects[outsideCounter].type = 0;
+				if(rects[outsideCounter].type != INDESTRUCTUBLOCK)rects[outsideCounter].type = 0;
 				outsideCounter += xGen / grid;
 			}
 			for(int i = 0; i < yGen / grid; i++){
-				rects[rightOutsideCounter].type = 0;
+				if(rects[rightOutsideCounter].type != INDESTRUCTUBLOCK)rects[rightOutsideCounter].type = 0;
 				rightOutsideCounter += xGen / grid;
 			}
 			outsideTimesCounter++;
@@ -160,6 +235,8 @@ public class terrainGen {
 		if(type == STONE)c = new RRGGBB(105,105,105);
 		if(type == COAL)c = new RRGGBB(44,44,44); 
 		if(type == BRONZE)c = new RRGGBB(205,127,50); 
+		if(type == SILVER)c = new RRGGBB(192,192,192); 
+		if(type == GOLD)c = new RRGGBB(201,137,16); 
 		
 		return c;
 	}

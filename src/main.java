@@ -62,7 +62,7 @@ public class main extends BasicGameState implements Game{
 		deathTtf = new TrueTypeFont(deathNoteFont, true);
 		restart = new Rectangle(con.getWidth() / 2 - 256 / 2, con.getHeight() / 2 - 128 + 200, 256, 128);
 		blockDropTimer = 0;
-		blockDropTime = 59 * 1000;
+		blockDropTime = 30 * 1000;
 		
 		selectedInv = 0;
 	}
@@ -139,7 +139,6 @@ public class main extends BasicGameState implements Game{
 			
 			//g.draw(player.playerBoundingRect); needs to be bit-level not a rectangle!!!
 			//g.drawRect(player.playerBoundingRect.getX(), player.playerBoundingRect.getY() - player.mapY, player.playerBoundingRect.getWidth(), player.playerBoundingRect.getHeight());
-			g.draw(player.playerHitBox);
 			g.drawRect(bee.beeBoundingRect.getX(), bee.beeBoundingRect.getY() - player.mapY, bee.beeBoundingRect.getWidth(),bee.beeBoundingRect.getHeight());
 		}else{
 			g.setColor(RRGGBB.white);
@@ -177,10 +176,10 @@ public class main extends BasicGameState implements Game{
 			player.movement(input, delta, terrain.rects);
 			
 			blockDropTimer += delta;
-			
 			if(blockDropTimer > blockDropTime){
 				terrain.removeOutside();
-				blockDropTime = 120 * 1000; 
+				if(player.mapY > terrain.yGen / 2)blockDropTime = 5 * 1000; 
+				if(player.mapY > terrain.yGen / 1.5)blockDropTime = 1 * 1000;
 				blockDropTimer = 0;
 				
 				

@@ -19,8 +19,8 @@ public class Block extends Rectangle{
 	public final int MOONSTONE = 10;
 	public final int AMETHYST = 11;
 	public final int ALUMINIUM = 12;
-	//INSERT MORE BLOCKS HERE 
-	public final int INFINITESTONE = 16;
+	public final int INFINITESTONE = 13;
+	public final int INDESTRUCTUBLOCK = 14;
 	
 	public Block(float x, float y, float width, float height, int type) {
 		super(x, y, width, height);

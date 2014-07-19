@@ -28,6 +28,7 @@ public class Char {
 	private float velY;
 	
 	private int screenHeight;
+	private int screenWidth;
 	private int delta;
 	private int timer;
 	private int type;
@@ -35,11 +36,12 @@ public class Char {
 	private int blockAnimTimer;
 	private int genX,genY,blockSize;
 	
-	public Char(String name, main main, float x, float y, int screenHeight) {
+	public Char(String name, main main, float x, float y, int screenHeight, int screenWidth) {
 		this.name = name;
 		this.x = x;
 		this.y = y;
 		this.screenHeight = screenHeight;
+		this.screenWidth = screenWidth;
 		map = main.terrain.rects;
 		genX = main.terrain.xGen;
 		genY = main.terrain.yGen;
@@ -198,6 +200,8 @@ public class Char {
 		if(startY < 0) startY = 0;
 		if(endY > map.length) endY = map.length;
 		
+	
+		
 		playerHitBox.setLocation(mouseX, mouseY + mapY);
 		for(int i = startY; i < endY; i++){
 			if(playerHitBox.intersects(map[i]) && map[i].type != 0){
@@ -230,6 +234,8 @@ public class Char {
 		if(startY < 0) startY = 0;
 		if(endY > map.length) endY = map.length;
         
+		if(tweakedX > screenWidth || tweakedX < 0) blocked = true;
+		
         playerBoundingRect.setLocation(tweakedX,tweakedY);
 		for(int i = startY; i < endY; i++){
 				if(playerBoundingRect.intersects(map[i])){

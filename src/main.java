@@ -51,7 +51,7 @@ public class main extends BasicGameState implements Game{
 		screenHeight = con.getHeight();
 		terrain = new terrainGen();
 		terrain.setup(con.getWidth());
-		player = new Char("Char", this, 960, con.getScreenHeight() / 2 - 256, screenHeight);
+		player = new Char("Char", this, 960, con.getScreenHeight() / 2 - 256, screenHeight,con.getWidth() - 26);
 		bee = new Bee("Bee", terrain.rects, 64, 64);
 		Cosmos1 = new Image("src/Assets/Cosmos1.png");
 		input = con.getInput();

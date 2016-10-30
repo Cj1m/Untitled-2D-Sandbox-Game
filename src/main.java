@@ -90,9 +90,9 @@ public class main extends BasicGameState implements Game{
 			
 			int blockSize = terrain.grid;
 			int rowCount = terrain.xGen / blockSize;
-
-			int startY =  (Math.round(player.mapY / blockSize))* (rowCount);          
-			int endY = (Math.round((player.mapY + screenHeight) / blockSize))* (rowCount);
+			
+			int startY =  (int) ((Math.floor(player.mapY / blockSize))* (rowCount));          
+			int endY = (int) ((Math.ceil((player.mapY + screenHeight) / blockSize))* (rowCount));
 			
 			if(startY < 0) startY = 0;
 			if(endY > terrain.rects.length) endY = terrain.rects.length;

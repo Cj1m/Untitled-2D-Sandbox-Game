@@ -29,7 +29,4 @@ BONUS TASK
 I have just over 9 days to complete this, and since 8BitSandy, the game artist, is on holiday, I am going to have to
 draw the rest of the game by myself (lucky it is just a prototype)
 
-During these 9 days I will be Vlogging every so often on my Youtube account http://youtube.com/cj1mckay and you will be able to track 
-my progress on this github page aswell.
-
 Well, that is all, time to get coding!
